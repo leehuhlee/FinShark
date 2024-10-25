@@ -16,6 +16,10 @@ const Sidebar: React.FC<Props> = (props: Props): JSX.Element => (
             <FaHome/>
             <h6 className="ml-3">Company Profile</h6>
           </Link>
+          <Link to="income-statement" className="flex md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+            <FaHome/>
+            <h6 className="ml-3">Income Statement</h6>
+          </Link>
         </div>
       </div>
     </div>
