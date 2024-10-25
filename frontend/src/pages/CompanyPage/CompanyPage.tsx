@@ -3,8 +3,8 @@ import { useParams } from 'react-router'
 import { CompanyProfile } from '../../company';
 import { getCompanyProfile } from '../../api';
 import Sidebar from '../../components/Sidebar/Sidebar';
-import CardDashboard from '../../components/CardDashboard/CardDashboard';
 import Title from '../../components/Title/Title';
+import CompanyDashboard from '../../components/CompanyDashboard/CompanyDashboard';
 
 type Props = {}
 
@@ -25,9 +25,9 @@ const CompanyPage: React.FC<Props> = (props: Props): JSX.Element => {
       {company ? (
         <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
           <Sidebar />
-          <CardDashboard>
+          <CompanyDashboard ticker={ticker!}>
             <Title title="Company Name" subTitle={company.companyName}/>
-          </CardDashboard>
+          </CompanyDashboard>
         </div>
       ) : (
         <p>Company not found!</p>
