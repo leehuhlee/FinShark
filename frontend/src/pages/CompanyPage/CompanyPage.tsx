@@ -5,6 +5,7 @@ import { getCompanyProfile } from '../../api';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Title from '../../components/Title/Title';
 import CompanyDashboard from '../../components/CompanyDashboard/CompanyDashboard';
+import Spinner from '../../components/Spinner/Spinner';
 
 type Props = {}
 
@@ -30,7 +31,7 @@ const CompanyPage: React.FC<Props> = (props: Props): JSX.Element => {
           </CompanyDashboard>
         </div>
       ) : (
-        <p>Company not found!</p>
+        <Spinner/>
       )}
     </>
   )
