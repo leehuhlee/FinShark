@@ -3,9 +3,9 @@ import { useParams } from 'react-router'
 import { CompanyProfile } from '../../company';
 import { getCompanyProfile } from '../../api';
 import Sidebar from '../../components/Sidebar/Sidebar';
-import Title from '../../components/Title/Title';
 import CompanyDashboard from '../../components/CompanyDashboard/CompanyDashboard';
 import Spinner from '../../components/Spinner/Spinner';
+import Tile from '../../components/Tile/Tile';
 
 type Props = {}
 
@@ -27,7 +27,13 @@ const CompanyPage: React.FC<Props> = (props: Props): JSX.Element => {
         <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
           <Sidebar />
           <CompanyDashboard ticker={ticker!}>
-            <Title title="Company Name" subTitle={company.companyName}/>
+            <Tile title="Company Name" subTitle={company.companyName} />
+            <Tile title="Price" subTitle={"$" + company.price.toString()} />
+            <Tile title="DCF" subTitle={"$" + company.dcf.toString()} />
+            <Tile title="Sector" subTitle={company.sector} />
+            <p className="bg-white shadow rounded text-medium font-medium text-gray-900 p-3 mt-1 m-4">
+              {company.description}
+            </p>
           </CompanyDashboard>
         </div>
       ) : (
