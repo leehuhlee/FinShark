@@ -1,7 +1,10 @@
 ﻿using Api.Data;
 using Api.Dtos.Stock;
+using Api.Interfaces;
 using Api.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Api.Controllers
 {
@@ -9,26 +12,26 @@ namespace Api.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
+        private readonly IStockRepository _stockRepository;
 
-        public StockController(ApplicationDBContext context)
+        public StockController(IStockRepository stockRepository)
         {
-            _context = context;    
+            _stockRepository = stockRepository;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAll()
         {
-            var stock = _context.Stocks.ToList()
-                .Select(s => s.ToStockDto());
+            var stock = await _stockRepository.GetAllAsync();
+            var stockDto = stock.Select(s => s.ToStockDto());
 
             return Ok(stock);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var stock = _context.Stocks.Find(id);
+            var stock = await _stockRepository.GetByIdAsync(id);
 
             if (stock == null)
             {
@@ -39,13 +42,40 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateStockRequestDto stockDto)
+        public async Task<IActionResult> Create([FromBody] CreateStockRequestDto stockDto)
         {
             var stockModel = stockDto.ToStockFromCreateDto();
-            _context.Stocks.Add(stockModel);
-            _context.SaveChanges();
+            await _stockRepository.CreateAsync(stockModel);
 
             return CreatedAtAction(nameof(GetById), new { id = stockModel.Id}, stockModel.ToStockDto());
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto)
+        {
+            var stockModel = await _stockRepository.UpdateAsync(id, updateDto);
+
+            if (stockModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(stockModel.ToStockDto());
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var stockModel = await _stockRepository.DeleteAsync(id);
+
+            if (stockModel == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }
