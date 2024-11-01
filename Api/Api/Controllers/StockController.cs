@@ -1,10 +1,7 @@
-﻿using Api.Data;
-using Api.Dtos.Stock;
+﻿using Api.Dtos.Stock;
 using Api.Interfaces;
 using Api.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Api.Controllers
 {
@@ -28,7 +25,8 @@ namespace Api.Controllers
             return Ok(stock);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var stock = await _stockRepository.GetByIdAsync(id);
@@ -51,7 +49,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto)
         {
             var stockModel = await _stockRepository.UpdateAsync(id, updateDto);
@@ -65,7 +63,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var stockModel = await _stockRepository.DeleteAsync(id);

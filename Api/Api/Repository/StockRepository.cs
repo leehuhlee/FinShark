@@ -17,13 +17,17 @@ namespace Api.Repository
 
         public async Task<List<Stock>> GetAllAsync()
         {
-            return await _context.Stocks.ToListAsync();
+            return await _context.Stocks.Include(c => c.Comments).ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
         {
-            var stockModel = await _context.Stocks.FindAsync(id);
-            return stockModel;
+            return await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> StockExists(int id)
+        {
+            return await _context.Stocks.AnyAsync(s => s.Id == id);
         }
 
         public async Task<Stock?> CreateAsync(Stock stockModel)
@@ -56,7 +60,7 @@ namespace Api.Repository
         {
             var stockModel = await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (stockModel != null)
+            if (stockModel == null)
             {
                 return null;
             }
