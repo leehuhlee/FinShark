@@ -1,6 +1,7 @@
 ﻿using Api.Dtos.Comment;
 using Api.Interfaces;
 using Api.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -19,6 +20,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             if (!ModelState.IsValid)
@@ -33,6 +35,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -52,6 +55,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("{stockId:int}")]
         public async Task<IActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentRequestDto commentDto)
         {
@@ -72,6 +76,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentRequestDto updateDto)
         {
@@ -91,6 +96,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
