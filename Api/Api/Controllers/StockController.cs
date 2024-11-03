@@ -28,9 +28,9 @@ namespace Api.Controllers
             }
 
             var stock = await _stockRepository.GetAllAsync(query);
-            var stockDto = stock.Select(s => s.ToStockDto());
+            var stockDto = stock.Select(s => s.ToStockDto()).ToList();
 
-            return Ok(stock);
+            return Ok(stockDto);
         }
 
         [HttpGet]
