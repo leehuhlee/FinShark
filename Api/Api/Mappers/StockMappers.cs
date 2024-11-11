@@ -1,4 +1,5 @@
-﻿using Api.Dtos.Stock;
+﻿using api.Dtos.Stock;
+using Api.Dtos.Stock;
 using Api.Models;
 
 namespace Api.Mappers
@@ -30,6 +31,19 @@ namespace Api.Mappers
                 LastDiv = stockDto.LastDiv,
                 Industry = stockDto.Industry,
                 MarketCap = stockDto.MarketCap
+            };
+        }
+
+        public static Stock ToStockFromFinancialModelingPrep(this FinancialModelingPrepStock financialModelingPrepStock)
+        {
+            return new Stock
+            {
+                Symbol = financialModelingPrepStock.symbol,
+                CompanyName = financialModelingPrepStock.companyName,
+                Purchase = (decimal)financialModelingPrepStock.price,
+                LastDiv = (decimal)financialModelingPrepStock.lastDiv,
+                Industry = financialModelingPrepStock.industry,
+                MarketCap = financialModelingPrepStock.mktCap
             };
         }
     }
