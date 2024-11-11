@@ -1,5 +1,6 @@
 ﻿using Api.Dtos.Comment;
 using Api.Extensions;
+using Api.Helpers;
 using Api.Interfaces;
 using Api.Mappers;
 using Api.Models;
@@ -28,14 +29,14 @@ namespace Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] CommentQueryObject queryObject)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var comments = await _commentRepository.GetAllAsync();
+            var comments = await _commentRepository.GetAllAsync(queryObject);
             var commentDto = comments.Select(s => s.ToCommentDto());
 
             return Ok(commentDto);
