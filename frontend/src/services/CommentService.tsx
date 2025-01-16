@@ -23,7 +23,7 @@ export const commentPostAPI = async (title: string, content: string, symbol: str
 
 export const commentsGetAPI = async (symbol: string) => {
   try {
-    const data = await axios.get<CommentGet[]>(api + `?Symbol=${symbol}`, {
+    const data = await axios.get<CommentGet[]>(api + `?symbol=${symbol}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
